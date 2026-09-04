@@ -82,8 +82,8 @@ input[type=text]::placeholder{color:#6d84ac}
     </div>
 
     <div class="card">
-      <label class="title">사진 2</label>
-      <div class="desc">선택 사항입니다</div>
+      <label class="title">사진 2<span class="req">*</span></label>
+      <div class="desc">촬영하거나 앨범에서 선택해주세요</div>
       <div class="uploader" id="up2">
         <div class="ico">📷</div>
         <div class="txt" id="txt2">탭해서 사진 선택</div>
@@ -160,8 +160,8 @@ let submitting=false;
 btn.onclick=async()=>{
   if(submitting)return;
   const team=document.getElementById('team').value.trim();
-  if(!team||!data1){
-    errEl.textContent='조 이름과 사진 1은 필수입니다.';
+  if(!team||!data1||!data2){
+    errEl.textContent='조 이름과 사진 1, 사진 2는 모두 필수입니다.';
     return;
   }
   errEl.textContent='';
