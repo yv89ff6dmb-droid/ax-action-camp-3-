@@ -86,17 +86,6 @@ textarea::placeholder{color:#6d84ac}
       <input type="text" id="team" placeholder="예) AI 탐험대" maxlength="50">
     </div>
 
-    <div class="card">
-      <label class="title">참여 계기</label>
-      <div class="desc">선택 사항입니다</div>
-      <div class="chips" data-field="channel">
-        <div class="opt" data-v="사내 공지">사내 공지</div>
-        <div class="opt" data-v="팀장/매니저 추천">팀장/매니저 추천</div>
-        <div class="opt" data-v="동료 추천">동료 추천</div>
-        <div class="opt" data-v="기타">기타</div>
-      </div>
-    </div>
-
     <div class="section-label">Section 02 · Program Rating</div>
     <div class="card">
       <label class="title">전반적인 만족도<span class="req">*</span></label>
@@ -189,7 +178,7 @@ textarea::placeholder{color:#6d84ac}
 
 <script>
 const SHEETS_ENDPOINT='https://script.google.com/macros/s/AKfycbygkb4boUbHbtOkMNdxZHQ-UbROA3QiXxmbyn3vRMAOXrrcDMjShTapbQun06JLYUzPRQ/exec';
-const state={overall:'',content:'',hackathon:'',schedule:'',operation:'',again:'',channel:''};
+const state={overall:'',content:'',hackathon:'',schedule:'',operation:'',again:''};
 document.querySelectorAll('.scale, .yn, .chips').forEach(group=>{
   const field=group.dataset.field;
   group.querySelectorAll('.opt').forEach(opt=>{
@@ -227,7 +216,6 @@ btn.onclick=async()=>{
     name:document.getElementById('name').value.trim(),
     store:document.getElementById('store').value.trim(),
     team:document.getElementById('team').value.trim(),
-    channel:state.channel,
     overall:state.overall,
     content:state.content,
     hackathon:state.hackathon,
