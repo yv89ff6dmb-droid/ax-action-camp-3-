@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AX Action Camp 3기 · 조별 사진 등록</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;background:#020714;color:#fff}
+body{min-height:100vh;padding:0 0 60px;position:relative;overflow-x:hidden;
+  background:radial-gradient(circle at 82% 10%,rgba(45,114,255,.22),transparent 30%),
+             radial-gradient(circle at 8% 78%,rgba(120,90,255,.14),transparent 32%),
+             linear-gradient(#020714,#05112c 60%,#020611)}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background-image:
+    radial-gradient(1.6px 1.6px at 18px 24px,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 78px 96px,#bcd7ff,transparent),
+    radial-gradient(1.4px 1.4px at 132px 44px,#fff,transparent),
+    radial-gradient(1px 1px at 168px 138px,#9fc4ff,transparent),
+    radial-gradient(1.3px 1.3px at 44px 158px,#fff,transparent),
+    radial-gradient(1px 1px at 198px 20px,#cfe3ff,transparent);
+  background-repeat:repeat;background-size:220px 220px}
+.wrap{max-width:640px;margin:0 auto;padding:28px 20px 40px;position:relative;z-index:1}
+.head{text-align:center;margin-bottom:22px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:#5ec8ff;text-transform:uppercase}
+h1{font-size:24px;margin:8px 0 6px;font-weight:800;line-height:1.35;text-shadow:0 0 22px rgba(66,199,255,.35)}
+.sub{font-size:13.5px;color:#9db4dd;line-height:1.6;margin:0}
+.navlink{display:inline-block;margin-top:14px;font-size:13px;color:#5ec8ff;text-decoration:none;border:1px solid #2d5da8;border-radius:999px;padding:8px 16px}
+form{margin-top:24px;display:flex;flex-direction:column;gap:20px}
+.card{border:1px solid #2d5da8;border-radius:18px;background:linear-gradient(180deg,rgba(3,16,42,.92),rgba(2,10,28,.94));padding:20px 20px 22px;box-shadow:0 0 0 1px rgba(52,123,230,.1) inset,0 0 26px rgba(26,127,255,.16);position:relative;overflow:hidden}
+.card:before,.card:after{content:'';position:absolute;width:20px;height:20px;border-color:#3a86e0;opacity:.65;pointer-events:none}
+.card:before{left:8px;top:8px;border-left:1.5px solid;border-top:1.5px solid;border-radius:8px 0 0 0}
+.card:after{right:8px;bottom:8px;border-right:1.5px solid;border-bottom:1.5px solid;border-radius:0 0 8px 0}
+.card label.title{display:block;font-size:14.5px;font-weight:700;margin-bottom:12px;line-height:1.5}
+.card .req{color:#5ec8ff;margin-left:2px}
+.card .desc{font-size:12.5px;color:#7d94bc;margin:-6px 0 12px}
+input[type=text]{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #2d5da8;background:#03102a;color:#fff;font-size:14.5px;outline:none}
+input[type=text]::placeholder{color:#6d84ac}
+.uploader{border:1.5px dashed #3a6bb0;border-radius:14px;padding:18px;text-align:center;cursor:pointer;position:relative;background:#03102a;transition:border-color .15s}
+.uploader.filled{border-style:solid;border-color:#42c7ff}
+.uploader input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.uploader .ico{font-size:26px;margin-bottom:6px}
+.uploader .txt{font-size:13px;color:#9db4dd}
+.preview{margin-top:12px;display:none;border-radius:12px;overflow:hidden;max-height:260px}
+.preview img{width:100%;display:block}
+.err{color:#ff8080;font-size:12px;margin-top:8px;min-height:14px}
+.submit{margin-top:4px;width:100%;padding:16px;border:none;border-radius:14px;background:linear-gradient(180deg,#2a8dff,#1766d6);color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 10px 26px rgba(23,102,214,.35)}
+.submit:disabled{opacity:.6;cursor:default}
+.done{display:none;text-align:center;padding:60px 20px}
+.done .check{width:64px;height:64px;border-radius:50%;border:2px solid #42c7ff;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;color:#42c7ff}
+.done h3{font-size:20px;margin:0 0 8px}
+.done p{color:#9db4dd;font-size:14px;line-height:1.6}
+.done a{display:inline-block;margin-top:20px;padding:12px 22px;border-radius:12px;border:1px solid #2d5da8;color:#5ec8ff;text-decoration:none;font-size:14px;font-weight:700}
+.footer{text-align:center;margin-top:34px;font-size:12px;color:#5f7699}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">AX Action Camp 3기</div>
+    <h1>우리 조 사진을<br>등록해주세요</h1>
+    <p class="sub">활동 중인 모습을 사진으로 남겨주세요.<br>등록한 사진은 모두가 함께 볼 수 있어요.</p>
+    <a class="navlink" href="./gallery.html">전체 사진 보러가기 →</a>
+  </div>
+
+  <form id="f">
+    <div class="card">
+      <label class="title">조 이름<span class="req">*</span></label>
+      <input type="text" id="team" placeholder="예) AI 탐험대" maxlength="50">
+    </div>
+
+    <div class="card">
+      <label class="title">사진 1<span class="req">*</span></label>
+      <div class="desc">촬영하거나 앨범에서 선택해주세요</div>
+      <div class="uploader" id="up1">
+        <div class="ico">📷</div>
+        <div class="txt" id="txt1">탭해서 사진 선택</div>
+        <input type="file" accept="image/*" id="file1">
+      </div>
+      <div class="preview" id="prev1"><img id="img1"></div>
+    </div>
+
+    <div class="card">
+      <label class="title">사진 2</label>
+      <div class="desc">선택 사항입니다</div>
+      <div class="uploader" id="up2">
+        <div class="ico">📷</div>
+        <div class="txt" id="txt2">탭해서 사진 선택</div>
+        <input type="file" accept="image/*" id="file2">
+      </div>
+      <div class="preview" id="prev2"><img id="img2"></div>
+    </div>
+
+    <div class="err" id="err"></div>
+    <button type="button" class="submit" id="submitBtn">등록하기</button>
+  </form>
+
+  <div class="done" id="done">
+    <div class="check">✓</div>
+    <h3>사진이 등록되었습니다</h3>
+    <p>우리 조 사진이 갤러리에 반영됩니다.<br>잠시 후 확인해보세요.</p>
+    <a href="./gallery.html">전체 사진 보러가기 →</a>
+  </div>
+
+  <div class="footer">GS25 · AX Action Camp 3기</div>
+</div>
+
+<script>
+const SHEETS_ENDPOINT='https://script.google.com/macros/s/AKfycbyfr2thwiCL1oucDcaNbPd1JVB_L8KpjIpnqYMNUk-vsxwHYDHKTPp7d0XdU0h2SQRFWA/exec';
+const MAX_DIM=1280, JPEG_Q=0.75;
+let data1=null, data2=null;
+
+function resizeFile(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        let w=img.width,h=img.height;
+        if(w>h && w>MAX_DIM){h=Math.round(h*MAX_DIM/w);w=MAX_DIM;}
+        else if(h>=w && h>MAX_DIM){w=Math.round(w*MAX_DIM/h);h=MAX_DIM;}
+        const canvas=document.createElement('canvas');
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL('image/jpeg',JPEG_Q));
+      };
+      img.onerror=reject;
+      img.src=e.target.result;
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function wireUploader(upId,fileId,txtId,imgId,prevId,setter){
+  document.getElementById(fileId).addEventListener('change',async(e)=>{
+    const f=e.target.files[0];
+    if(!f)return;
+    document.getElementById(txtId).textContent='처리 중…';
+    try{
+      const dataUrl=await resizeFile(f);
+      setter(dataUrl);
+      document.getElementById(imgId).src=dataUrl;
+      document.getElementById(prevId).style.display='block';
+      document.getElementById(upId).classList.add('filled');
+      document.getElementById(txtId).textContent='다시 선택하기';
+    }catch(err){
+      document.getElementById(txtId).textContent='이미지를 불러오지 못했어요, 다시 시도해주세요';
+    }
+  });
+}
+wireUploader('up1','file1','txt1','img1','prev1',v=>data1=v);
+wireUploader('up2','file2','txt2','img2','prev2',v=>data2=v);
+
+const errEl=document.getElementById('err');
+const btn=document.getElementById('submitBtn');
+let submitting=false;
+
+btn.onclick=async()=>{
+  if(submitting)return;
+  const team=document.getElementById('team').value.trim();
+  if(!team||!data1){
+    errEl.textContent='조 이름과 사진 1은 필수입니다.';
+    return;
+  }
+  errEl.textContent='';
+  submitting=true;btn.disabled=true;btn.textContent='등록 중…';
+  const photos=[data1];
+  if(data2)photos.push(data2);
+  try{
+    await fetch(SHEETS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'photo',team,photos})});
+    document.getElementById('f').style.display='none';
+    document.getElementById('done').style.display='block';
+  }catch(err){
+    errEl.textContent='등록 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    btn.disabled=false;btn.textContent='등록하기';
+  }finally{
+    submitting=false;
+  }
+};
+</script>
+</body>
+</html>
