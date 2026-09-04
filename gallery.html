@@ -83,7 +83,10 @@ async function load(){
     const start=text.indexOf('{');
     const end=text.lastIndexOf('}');
     const json=JSON.parse(text.slice(start,end+1));
-    const rows=(json.table && json.table.rows) || [];
+    const cols=(json.table && json.table.cols) || [];
+    const colLabels=cols.map(c=>(c && c.label) || '');
+    const looksLikePhotoSheet = colLabels[1]==='조 이름' && colLabels[2]==='사진1';
+    const rows=looksLikePhotoSheet ? ((json.table && json.table.rows) || []) : [];
     if(rows.length===0){
       content.innerHTML='<div class="empty">아직 등록된 사진이 없어요.<br>가장 먼저 우리 조 사진을 올려서 우주에 첫 발자국을 남겨보세요!</div>';
       return;
