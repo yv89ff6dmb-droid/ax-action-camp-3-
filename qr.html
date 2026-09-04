@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AX Action Camp 3기 · QR</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;background:#020714;color:#fff}
+body{min-height:100vh;padding:36px 20px 60px;position:relative;overflow-x:hidden;
+  background:radial-gradient(circle at 82% 10%,rgba(45,114,255,.22),transparent 30%),
+             radial-gradient(circle at 8% 78%,rgba(120,90,255,.14),transparent 32%),
+             linear-gradient(#020714,#05112c 60%,#020611)}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background-image:
+    radial-gradient(1.6px 1.6px at 18px 24px,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 78px 96px,#bcd7ff,transparent),
+    radial-gradient(1.4px 1.4px at 132px 44px,#fff,transparent),
+    radial-gradient(1px 1px at 168px 138px,#9fc4ff,transparent),
+    radial-gradient(1.3px 1.3px at 44px 158px,#fff,transparent),
+    radial-gradient(1px 1px at 198px 20px,#cfe3ff,transparent);
+  background-repeat:repeat;background-size:220px 220px}
+@media print{body::before{display:none}}
+.wrap{max-width:960px;margin:0 auto;position:relative;z-index:1}
+.head{text-align:center;margin-bottom:34px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:#5ec8ff;text-transform:uppercase}
+h1{font-size:24px;margin:8px 0 6px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.card{border:1px solid #2d5da8;border-radius:20px;background:linear-gradient(180deg,rgba(3,16,42,.92),rgba(2,10,28,.95));padding:26px 22px 24px;text-align:center;box-shadow:0 0 22px rgba(26,127,255,.14)}
+.card h2{font-size:16px;margin:0 0 4px;font-weight:800}
+.card p{font-size:12.5px;color:#9db4dd;margin:0 0 18px}
+.qrbox{background:#fff;padding:14px;border-radius:14px;display:inline-block}
+.link{display:block;margin-top:14px;font-size:11.5px;color:#5ec8ff;word-break:break-all}
+@media print{
+  body{background:#fff;color:#000}
+  .card{border-color:#333;box-shadow:none}
+  .card h2,.link{color:#000}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">AX Action Camp 3기</div>
+    <h1>QR 코드 모음</h1>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2>만족도 조사</h2>
+      <p>행사 후 스캔해서 참여해주세요</p>
+      <div class="qrbox" id="qr-survey"></div>
+      <span class="link">https://yv89ff6dmb-droid.github.io/ax-action-camp-3-/satisfaction.html</span>
+    </div>
+    <div class="card">
+      <h2>조별 사진 등록</h2>
+      <p>우리 조 활동 사진을 올려주세요</p>
+      <div class="qrbox" id="qr-photo"></div>
+      <span class="link">https://yv89ff6dmb-droid.github.io/ax-action-camp-3-/photo.html</span>
+    </div>
+    <div class="card">
+      <h2>전체 사진 갤러리</h2>
+      <p>모두가 올린 사진을 함께 봐요</p>
+      <div class="qrbox" id="qr-gallery"></div>
+      <span class="link">https://yv89ff6dmb-droid.github.io/ax-action-camp-3-/gallery.html</span>
+    </div>
+  </div>
+</div>
+<script>
+new QRCode(document.getElementById('qr-survey'),{text:'https://yv89ff6dmb-droid.github.io/ax-action-camp-3-/satisfaction.html',width:200,height:200,colorDark:'#020714',colorLight:'#ffffff'});
+new QRCode(document.getElementById('qr-photo'),{text:'https://yv89ff6dmb-droid.github.io/ax-action-camp-3-/photo.html',width:200,height:200,colorDark:'#020714',colorLight:'#ffffff'});
+new QRCode(document.getElementById('qr-gallery'),{text:'https://yv89ff6dmb-droid.github.io/ax-action-camp-3-/gallery.html',width:200,height:200,colorDark:'#020714',colorLight:'#ffffff'});
+</script>
+</body>
+</html>
