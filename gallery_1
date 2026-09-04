@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AX Action Camp 3기 · 조별 사진 갤러리</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;background:#020714;color:#fff}
+body{min-height:100vh;padding:0 0 60px;position:relative;overflow-x:hidden;
+  background:radial-gradient(circle at 82% 10%,rgba(45,114,255,.22),transparent 30%),
+             radial-gradient(circle at 8% 78%,rgba(120,90,255,.14),transparent 32%),
+             linear-gradient(#020714,#05112c 60%,#020611)}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background-image:
+    radial-gradient(1.6px 1.6px at 18px 24px,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 78px 96px,#bcd7ff,transparent),
+    radial-gradient(1.4px 1.4px at 132px 44px,#fff,transparent),
+    radial-gradient(1px 1px at 168px 138px,#9fc4ff,transparent),
+    radial-gradient(1.3px 1.3px at 44px 158px,#fff,transparent),
+    radial-gradient(1px 1px at 198px 20px,#cfe3ff,transparent);
+  background-repeat:repeat;background-size:220px 220px}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 20px 40px;position:relative;z-index:1}
+.head{text-align:center;margin-bottom:26px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:#5ec8ff;text-transform:uppercase}
+h1{font-size:24px;margin:8px 0 6px;font-weight:800;line-height:1.35;text-shadow:0 0 22px rgba(66,199,255,.35)}
+.sub{font-size:13.5px;color:#9db4dd;line-height:1.6;margin:0}
+.navlink{display:inline-block;margin-top:14px;font-size:13px;color:#5ec8ff;text-decoration:none;border:1px solid #2d5da8;border-radius:999px;padding:8px 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-top:24px}
+.card{border:1px solid #2d5da8;border-radius:16px;overflow:hidden;background:linear-gradient(180deg,rgba(3,16,42,.9),rgba(2,10,28,.92));box-shadow:0 0 0 1px rgba(52,123,230,.1) inset,0 0 18px rgba(26,127,255,.14)}
+.card .imgs{display:grid;grid-template-columns:1fr;gap:2px;background:#03102a}
+.card .imgs.two{grid-template-columns:1fr 1fr}
+.card img{width:100%;height:180px;object-fit:cover;display:block;background:#03102a}
+.card .meta{padding:12px 14px 14px}
+.card .team{font-size:14.5px;font-weight:800;color:#fff}
+.card .time{font-size:11.5px;color:#7d94bc;margin-top:3px}
+.empty{text-align:center;padding:60px 20px;color:#7d94bc;font-size:14px;line-height:1.7}
+.loading{text-align:center;padding:60px 20px;color:#7d94bc;font-size:14px}
+.footer{text-align:center;margin-top:34px;font-size:12px;color:#5f7699}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,4,14,.92);z-index:10;align-items:center;justify-content:center;padding:24px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:90vh;border-radius:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">AX Action Camp 3기</div>
+    <h1>조별 활동 사진</h1>
+    <p class="sub">각 조에서 등록한 사진을 한 곳에서 모아봅니다.</p>
+    <a class="navlink" href="./photo.html">우리 조 사진 등록하기 →</a>
+  </div>
+  <div id="content"><div class="loading">불러오는 중…</div></div>
+  <div class="footer">GS25 · AX Action Camp 3기</div>
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lightboxImg"></div>
+
+<script>
+const SPREADSHEET_ID='1wLv-MVz7_e7Da0YmLGEHQWv4nW9cIZeokSPbRACPpY0';
+const SHEET_NAME='photos';
+const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
+
+function cellVal(c){ return c && c.v!==null && c.v!==undefined ? c.v : ''; }
+
+async function load(){
+  const content=document.getElementById('content');
+  try{
+    const res=await fetch(url);
+    if(!res.ok) throw new Error('http '+res.status);
+    const text=await res.text();
+    const start=text.indexOf('{');
+    const end=text.lastIndexOf('}');
+    const json=JSON.parse(text.slice(start,end+1));
+    const rows=(json.table && json.table.rows) || [];
+    if(rows.length===0){
+      content.innerHTML='<div class="empty">아직 등록된 사진이 없어요.<br>가장 먼저 우리 조 사진을 올려보세요!</div>';
+      return;
+    }
+    const items=rows.map(r=>{
+      const c=r.c||[];
+      return {
+        time: cellVal(c[0]),
+        team: cellVal(c[1]),
+        photo1: cellVal(c[2]),
+        photo2: cellVal(c[3])
+      };
+    }).filter(it=>it.photo1).reverse();
+
+    if(items.length===0){
+      content.innerHTML='<div class="empty">아직 등록된 사진이 없어요.<br>가장 먼저 우리 조 사진을 올려보세요!</div>';
+      return;
+    }
+
+    const grid=document.createElement('div');
+    grid.className='grid';
+    items.forEach(it=>{
+      const card=document.createElement('div');
+      card.className='card';
+      const imgsWrap=document.createElement('div');
+      imgsWrap.className='imgs'+(it.photo2?' two':'');
+      const img1=document.createElement('img');
+      img1.src=it.photo1; img1.loading='lazy';
+      img1.onclick=()=>openLightbox(it.photo1);
+      imgsWrap.appendChild(img1);
+      if(it.photo2){
+        const img2=document.createElement('img');
+        img2.src=it.photo2; img2.loading='lazy';
+        img2.onclick=()=>openLightbox(it.photo2);
+        imgsWrap.appendChild(img2);
+      }
+      card.appendChild(imgsWrap);
+      const meta=document.createElement('div');
+      meta.className='meta';
+      meta.innerHTML=`<div class="team"></div><div class="time"></div>`;
+      meta.querySelector('.team').textContent=it.team||'이름 없는 조';
+      meta.querySelector('.time').textContent=it.time||'';
+      card.appendChild(meta);
+      grid.appendChild(card);
+    });
+    content.innerHTML='';
+    content.appendChild(grid);
+  }catch(err){
+    content.innerHTML='<div class="empty">사진을 불러오지 못했습니다.<br>잠시 후 새로고침해주세요.</div>';
+  }
+}
+
+function openLightbox(src){
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+document.getElementById('lightbox').onclick=()=>{
+  document.getElementById('lightbox').classList.remove('open');
+};
+
+load();
+</script>
+</body>
+</html>
