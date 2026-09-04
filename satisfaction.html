@@ -82,6 +82,11 @@ textarea::placeholder{color:#6d84ac}
     </div>
 
     <div class="card">
+      <label class="title">참여 팀명<span class="req">*</span></label>
+      <input type="text" id="team" placeholder="예) AI 탐험대" maxlength="50">
+    </div>
+
+    <div class="card">
       <label class="title">참여 계기</label>
       <div class="desc">선택 사항입니다</div>
       <div class="chips" data-field="channel">
@@ -204,7 +209,8 @@ let submitting=false;
 function validate(){
   const name=document.getElementById('name').value.trim();
   const store=document.getElementById('store').value.trim();
-  if(!name||!store||!state.overall||!state.content||!state.hackathon||!state.schedule||!state.operation||!state.again){
+  const team=document.getElementById('team').value.trim();
+  if(!name||!store||!team||!state.overall||!state.content||!state.hackathon||!state.schedule||!state.operation||!state.again){
     errEl.textContent='필수 항목(*)을 모두 입력해주세요.';
     return false;
   }
@@ -220,6 +226,7 @@ btn.onclick=async()=>{
     type:'satisfaction',
     name:document.getElementById('name').value.trim(),
     store:document.getElementById('store').value.trim(),
+    team:document.getElementById('team').value.trim(),
     channel:state.channel,
     overall:state.overall,
     content:state.content,
