@@ -1,0 +1,72 @@
+const SPREADSHEET_ID = '1wLv-MVz7_e7Da0YmLGEHQWv4nW9cIZeokSPbRACPpY0';
+const IDEA_SHEET_GID = 760010789;
+const PHOTO_FOLDER_NAME = 'AX Action Camp 3기 조별사진';
+
+function getSheetByName_(name) {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  let sh = ss.getSheetByName(name);
+  if (!sh) sh = ss.insertSheet(name);
+  return sh;
+}
+
+function getIdeaSheet_() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  for (const sh of ss.getSheets()) if (sh.getSheetId() === IDEA_SHEET_GID) return sh;
+  return ss.getSheets()[0];
+}
+
+function getPhotoFolder_() {
+  const it = DriveApp.getFoldersByName(PHOTO_FOLDER_NAME);
+  if (it.hasNext()) return it.next();
+  return DriveApp.createFolder(PHOTO_FOLDER_NAME);
+}
+
+function json_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const type = data.type || 'idea';
+    const now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+
+    if (type === 'satisfaction') {
+      const sh = getSheetByName_('satisfaction');
+      if (sh.getLastRow() === 0) {
+        sh.appendRow(['제출일시(KST)','이름','소속(점포명)','전반적 만족도','프로그램 구성 만족도','운영 만족도','향후 참여 의향','의견']);
+      }
+      sh.appendRow([now, data.name||'', data.store||'', data.overall||'', data.curriculum||'', data.operation||'', data.again||'', data.comment||'']);
+      return json_({result:'success'});
+    }
+
+    if (type === 'photo') {
+      const folder = getPhotoFolder_();
+      const urls = [];
+      const photos = data.photos || [];
+      for (let i = 0; i < photos.length; i++) {
+        const match = /^data:(image\/\w+);base64,(.*)$/.exec(photos[i]);
+        if (!match) continue;
+        const blob = Utilities.newBlob(Utilities.base64Decode(match[2]), match[1], (data.team||'team') + '_' + (i+1) + '_' + Date.now() + '.jpg');
+        const file = folder.createFile(blob);
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        urls.push('https://drive.google.com/uc?export=view&id=' + file.getId());
+      }
+      const sh = getSheetByName_('photos');
+      if (sh.getLastRow() === 0) {
+        sh.appendRow(['제출일시(KST)','조 이름','사진1','사진2']);
+      }
+      sh.appendRow([now, data.team||'', urls[0]||'', urls[1]||'']);
+      return json_({result:'success'});
+    }
+
+    const sheet = getIdeaSheet_();
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(['제출일시(KST)','이름','점포명','해커톤 팀이름','주제 제목','주제 설명','굿즈 수령 여부']);
+    }
+    sheet.appendRow([now, data.name||'', data.store||'', data.team||'', data.title||'', data.description||'', data.goods||'']);
+    return json_({result:'success'});
+  } catch (err) {
+    return json_({result:'error', message:String(err)});
+  }
+}
