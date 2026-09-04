@@ -1,72 +1,246 @@
-const SPREADSHEET_ID = '1wLv-MVz7_e7Da0YmLGEHQWv4nW9cIZeokSPbRACPpY0';
-const IDEA_SHEET_GID = 760010789;
-const PHOTO_FOLDER_NAME = 'AX Action Camp 3기 조별사진';
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AX Action Camp 3기 · 만족도 조사</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;background:#020714;color:#fff}
+body{min-height:100vh;padding:0 0 60px;position:relative;overflow-x:hidden;
+  background:radial-gradient(circle at 82% 10%,rgba(45,114,255,.22),transparent 30%),
+             radial-gradient(circle at 8% 78%,rgba(120,90,255,.14),transparent 32%),
+             linear-gradient(#020714,#05112c 60%,#020611)}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background-image:
+    radial-gradient(1.6px 1.6px at 18px 24px,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 78px 96px,#bcd7ff,transparent),
+    radial-gradient(1.4px 1.4px at 132px 44px,#fff,transparent),
+    radial-gradient(1px 1px at 168px 138px,#9fc4ff,transparent),
+    radial-gradient(1.3px 1.3px at 44px 158px,#fff,transparent),
+    radial-gradient(1px 1px at 198px 20px,#cfe3ff,transparent);
+  background-repeat:repeat;background-size:220px 220px}
+.wrap{max-width:640px;margin:0 auto;padding:28px 20px 40px;position:relative;z-index:1}
+.head{text-align:center;margin-bottom:22px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;color:#5ec8ff;text-transform:uppercase}
+h1{font-size:24px;margin:8px 0 6px;font-weight:800;line-height:1.35;text-shadow:0 0 22px rgba(66,199,255,.35)}
+.sub{font-size:13.5px;color:#9db4dd;line-height:1.6;margin:0}
+form{margin-top:24px;display:flex;flex-direction:column;gap:20px}
+.section-label{font-size:11.5px;font-weight:800;letter-spacing:.12em;color:#5ec8ff;text-transform:uppercase;margin:6px 2px -6px}
+.card{border:1px solid #2d5da8;border-radius:18px;background:linear-gradient(180deg,rgba(3,16,42,.92),rgba(2,10,28,.94));padding:20px 20px 22px;box-shadow:0 0 0 1px rgba(52,123,230,.1) inset,0 0 26px rgba(26,127,255,.16);position:relative;overflow:hidden}
+.card:before,.card:after{content:'';position:absolute;width:20px;height:20px;border-color:#3a86e0;opacity:.65;pointer-events:none}
+.card:before{left:8px;top:8px;border-left:1.5px solid;border-top:1.5px solid;border-radius:8px 0 0 0}
+.card:after{right:8px;bottom:8px;border-right:1.5px solid;border-bottom:1.5px solid;border-radius:0 0 8px 0}
+.card label.title{display:block;font-size:14.5px;font-weight:700;margin-bottom:12px;line-height:1.5}
+.card .req{color:#5ec8ff;margin-left:2px}
+.card .desc{font-size:12px;color:#7d94bc;margin:-6px 0 12px}
+input[type=text]{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #2d5da8;background:#03102a;color:#fff;font-size:14.5px;outline:none}
+input[type=text]::placeholder{color:#6d84ac}
+textarea{width:100%;min-height:88px;padding:13px 14px;border-radius:12px;border:1px solid #2d5da8;background:#03102a;color:#fff;font-size:14.5px;outline:none;resize:vertical;font-family:inherit}
+textarea::placeholder{color:#6d84ac}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips .opt{padding:10px 14px;border-radius:999px;border:1px solid #2d5da8;background:#03102a;font-size:13px;color:#cfe0fb;cursor:pointer}
+.chips .opt.sel{border-color:#42c7ff;background:#0c2c57;color:#fff}
+.scale{display:flex;gap:8px}
+.scale .opt{flex:1;text-align:center;padding:12px 4px 10px;border-radius:12px;border:1px solid #2d5da8;background:#03102a;cursor:pointer;user-select:none;transition:border-color .15s,background .15s}
+.scale .opt .num{display:block;font-size:16px;font-weight:800;color:#eaf3ff}
+.scale .opt .lbl{display:block;font-size:10.5px;color:#7d94bc;margin-top:4px;line-height:1.3}
+.scale .opt.sel{border-color:#42c7ff;background:#0c2c57;box-shadow:0 0 0 1px #42c7ff inset}
+.scale .opt.sel .num{color:#7fe0ff}
+.yn{display:flex;gap:10px}
+.yn .opt{flex:1;text-align:center;padding:13px 4px;border-radius:12px;border:1px solid #2d5da8;background:#03102a;cursor:pointer;font-size:14px;font-weight:600;color:#cfe0fb}
+.yn .opt.sel{border-color:#42c7ff;background:#0c2c57;color:#fff}
+.err{color:#ff8080;font-size:12px;margin-top:8px;min-height:14px}
+.submit{margin-top:4px;width:100%;padding:16px;border:none;border-radius:14px;background:linear-gradient(180deg,#2a8dff,#1766d6);color:#fff;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 10px 26px rgba(23,102,214,.35)}
+.submit:disabled{opacity:.6;cursor:default}
+.done{display:none;text-align:center;padding:60px 20px;position:relative;z-index:1}
+.done .check{width:64px;height:64px;border-radius:50%;border:2px solid #42c7ff;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;color:#42c7ff;box-shadow:0 0 30px rgba(66,199,255,.35)}
+.done h3{font-size:20px;margin:0 0 8px}
+.done p{color:#9db4dd;font-size:14px;line-height:1.6}
+.footer{text-align:center;margin-top:34px;font-size:12px;color:#5f7699}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">AX Action Camp 3기 · Signal Report</div>
+    <h1>만족도 조사에<br>참여해주세요</h1>
+    <p class="sub">여러분의 신호가 다음 해커톤을 더 좋게 만듭니다.<br>2분이면 충분해요 🛰️</p>
+  </div>
 
-function getSheetByName_(name) {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  let sh = ss.getSheetByName(name);
-  if (!sh) sh = ss.insertSheet(name);
-  return sh;
-}
+  <form id="f">
+    <div class="section-label">Section 01 · Profile</div>
+    <div class="card">
+      <label class="title">이름<span class="req">*</span></label>
+      <input type="text" id="name" placeholder="이름을 입력해주세요" maxlength="30">
+    </div>
 
-function getIdeaSheet_() {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  for (const sh of ss.getSheets()) if (sh.getSheetId() === IDEA_SHEET_GID) return sh;
-  return ss.getSheets()[0];
-}
+    <div class="card">
+      <label class="title">소속 점포명<span class="req">*</span></label>
+      <input type="text" id="store" placeholder="예) 인천공항T2출국점" maxlength="50">
+    </div>
 
-function getPhotoFolder_() {
-  const it = DriveApp.getFoldersByName(PHOTO_FOLDER_NAME);
-  if (it.hasNext()) return it.next();
-  return DriveApp.createFolder(PHOTO_FOLDER_NAME);
-}
+    <div class="card">
+      <label class="title">참여 계기</label>
+      <div class="desc">선택 사항입니다</div>
+      <div class="chips" data-field="channel">
+        <div class="opt" data-v="사내 공지">사내 공지</div>
+        <div class="opt" data-v="팀장/매니저 추천">팀장/매니저 추천</div>
+        <div class="opt" data-v="동료 추천">동료 추천</div>
+        <div class="opt" data-v="기타">기타</div>
+      </div>
+    </div>
 
-function json_(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
-}
+    <div class="section-label">Section 02 · Program Rating</div>
+    <div class="card">
+      <label class="title">전반적인 만족도<span class="req">*</span></label>
+      <div class="scale" data-field="overall">
+        <div class="opt" data-v="1"><span class="num">1</span><span class="lbl">매우<br>불만족</span></div>
+        <div class="opt" data-v="2"><span class="num">2</span><span class="lbl">불만족</span></div>
+        <div class="opt" data-v="3"><span class="num">3</span><span class="lbl">보통</span></div>
+        <div class="opt" data-v="4"><span class="num">4</span><span class="lbl">만족</span></div>
+        <div class="opt" data-v="5"><span class="num">5</span><span class="lbl">매우<br>만족</span></div>
+      </div>
+    </div>
 
-function doPost(e) {
-  try {
-    const data = JSON.parse(e.postData.contents);
-    const type = data.type || 'idea';
-    const now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+    <div class="card">
+      <label class="title">강연 · 세션 콘텐츠 만족도<span class="req">*</span></label>
+      <div class="scale" data-field="content">
+        <div class="opt" data-v="1"><span class="num">1</span><span class="lbl">매우<br>불만족</span></div>
+        <div class="opt" data-v="2"><span class="num">2</span><span class="lbl">불만족</span></div>
+        <div class="opt" data-v="3"><span class="num">3</span><span class="lbl">보통</span></div>
+        <div class="opt" data-v="4"><span class="num">4</span><span class="lbl">만족</span></div>
+        <div class="opt" data-v="5"><span class="num">5</span><span class="lbl">매우<br>만족</span></div>
+      </div>
+    </div>
 
-    if (type === 'satisfaction') {
-      const sh = getSheetByName_('satisfaction');
-      if (sh.getLastRow() === 0) {
-        sh.appendRow(['제출일시(KST)','이름','소속(점포명)','전반적 만족도','프로그램 구성 만족도','운영 만족도','향후 참여 의향','의견']);
-      }
-      sh.appendRow([now, data.name||'', data.store||'', data.overall||'', data.curriculum||'', data.operation||'', data.again||'', data.comment||'']);
-      return json_({result:'success'});
-    }
+    <div class="card">
+      <label class="title">해커톤 실습 · 팀 협업 방식 만족도<span class="req">*</span></label>
+      <div class="scale" data-field="hackathon">
+        <div class="opt" data-v="1"><span class="num">1</span><span class="lbl">매우<br>불만족</span></div>
+        <div class="opt" data-v="2"><span class="num">2</span><span class="lbl">불만족</span></div>
+        <div class="opt" data-v="3"><span class="num">3</span><span class="lbl">보통</span></div>
+        <div class="opt" data-v="4"><span class="num">4</span><span class="lbl">만족</span></div>
+        <div class="opt" data-v="5"><span class="num">5</span><span class="lbl">매우<br>만족</span></div>
+      </div>
+    </div>
 
-    if (type === 'photo') {
-      const folder = getPhotoFolder_();
-      const urls = [];
-      const photos = data.photos || [];
-      for (let i = 0; i < photos.length; i++) {
-        const match = /^data:(image\/\w+);base64,(.*)$/.exec(photos[i]);
-        if (!match) continue;
-        const blob = Utilities.newBlob(Utilities.base64Decode(match[2]), match[1], (data.team||'team') + '_' + (i+1) + '_' + Date.now() + '.jpg');
-        const file = folder.createFile(blob);
-        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-        urls.push('https://drive.google.com/uc?export=view&id=' + file.getId());
-      }
-      const sh = getSheetByName_('photos');
-      if (sh.getLastRow() === 0) {
-        sh.appendRow(['제출일시(KST)','조 이름','사진1','사진2']);
-      }
-      sh.appendRow([now, data.team||'', urls[0]||'', urls[1]||'']);
-      return json_({result:'success'});
-    }
+    <div class="card">
+      <label class="title">진행 시간 · 일정 구성의 적정성<span class="req">*</span></label>
+      <div class="scale" data-field="schedule">
+        <div class="opt" data-v="1"><span class="num">1</span><span class="lbl">매우<br>불만족</span></div>
+        <div class="opt" data-v="2"><span class="num">2</span><span class="lbl">불만족</span></div>
+        <div class="opt" data-v="3"><span class="num">3</span><span class="lbl">보통</span></div>
+        <div class="opt" data-v="4"><span class="num">4</span><span class="lbl">만족</span></div>
+        <div class="opt" data-v="5"><span class="num">5</span><span class="lbl">매우<br>만족</span></div>
+      </div>
+    </div>
 
-    const sheet = getIdeaSheet_();
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(['제출일시(KST)','이름','점포명','해커톤 팀이름','주제 제목','주제 설명','굿즈 수령 여부']);
-    }
-    sheet.appendRow([now, data.name||'', data.store||'', data.team||'', data.title||'', data.description||'', data.goods||'']);
-    return json_({result:'success'});
-  } catch (err) {
-    return json_({result:'error', message:String(err)});
+    <div class="card">
+      <label class="title">스태프 응대 · 현장 운영 만족도<span class="req">*</span></label>
+      <div class="scale" data-field="operation">
+        <div class="opt" data-v="1"><span class="num">1</span><span class="lbl">매우<br>불만족</span></div>
+        <div class="opt" data-v="2"><span class="num">2</span><span class="lbl">불만족</span></div>
+        <div class="opt" data-v="3"><span class="num">3</span><span class="lbl">보통</span></div>
+        <div class="opt" data-v="4"><span class="num">4</span><span class="lbl">만족</span></div>
+        <div class="opt" data-v="5"><span class="num">5</span><span class="lbl">매우<br>만족</span></div>
+      </div>
+    </div>
+
+    <div class="section-label">Section 03 · Next Mission</div>
+    <div class="card">
+      <label class="title">다음에도 유사한 프로그램이 있다면 참여하시겠어요?<span class="req">*</span></label>
+      <div class="yn" data-field="again">
+        <div class="opt" data-v="예">예, 참여하겠습니다</div>
+        <div class="opt" data-v="아니오">아니오</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label class="title">다음엔 어떤 주제를 다뤄보고 싶으세요?</label>
+      <div class="desc">선택 입력 · 예) AI 재고관리, 고객 응대 자동화 등</div>
+      <textarea id="topic" placeholder="희망 주제를 자유롭게 적어주세요" maxlength="300"></textarea>
+    </div>
+
+    <div class="card">
+      <label class="title">개선하면 좋을 점이나 자유롭게 의견을 남겨주세요</label>
+      <div class="desc">선택 입력</div>
+      <textarea id="comment" placeholder="어떤 의견이든 좋습니다" maxlength="500"></textarea>
+    </div>
+
+    <div class="err" id="err"></div>
+    <button type="button" class="submit" id="submitBtn">제출하기</button>
+  </form>
+
+  <div class="done" id="done">
+    <div class="check">✓</div>
+    <h3>신호가 접수되었습니다</h3>
+    <p>소중한 의견 감사합니다.<br>여러분의 피드백이 다음 AX Action Camp를 만듭니다.</p>
+  </div>
+
+  <div class="footer">GS25 · AX Action Camp 3기</div>
+</div>
+
+<script>
+const SHEETS_ENDPOINT='https://script.google.com/macros/s/AKfycbyfr2thwiCL1oucDcaNbPd1JVB_L8KpjIpnqYMNUk-vsxwHYDHKTPp7d0XdU0h2SQRFWA/exec';
+const state={overall:'',content:'',hackathon:'',schedule:'',operation:'',again:'',channel:''};
+document.querySelectorAll('.scale, .yn, .chips').forEach(group=>{
+  const field=group.dataset.field;
+  group.querySelectorAll('.opt').forEach(opt=>{
+    opt.onclick=()=>{
+      group.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+      opt.classList.add('sel');
+      state[field]=opt.dataset.v;
+    };
+  });
+});
+
+const form=document.getElementById('f');
+const errEl=document.getElementById('err');
+const btn=document.getElementById('submitBtn');
+let submitting=false;
+
+function validate(){
+  const name=document.getElementById('name').value.trim();
+  const store=document.getElementById('store').value.trim();
+  if(!name||!store||!state.overall||!state.content||!state.hackathon||!state.schedule||!state.operation||!state.again){
+    errEl.textContent='필수 항목(*)을 모두 입력해주세요.';
+    return false;
   }
+  errEl.textContent='';
+  return true;
 }
+
+btn.onclick=async()=>{
+  if(submitting)return;
+  if(!validate())return;
+  submitting=true;btn.disabled=true;btn.textContent='제출 중…';
+  const data={
+    type:'satisfaction',
+    name:document.getElementById('name').value.trim(),
+    store:document.getElementById('store').value.trim(),
+    channel:state.channel,
+    overall:state.overall,
+    content:state.content,
+    hackathon:state.hackathon,
+    schedule:state.schedule,
+    operation:state.operation,
+    again:state.again,
+    topic:document.getElementById('topic').value.trim(),
+    comment:document.getElementById('comment').value.trim()
+  };
+  try{
+    await fetch(SHEETS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
+    form.style.display='none';
+    document.getElementById('done').style.display='block';
+  }catch(err){
+    errEl.textContent='제출 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    btn.disabled=false;btn.textContent='제출하기';
+  }finally{
+    submitting=false;
+  }
+};
+</script>
+</body>
+</html>
